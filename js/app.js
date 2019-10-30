@@ -16,6 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const mapNodes = document.querySelectorAll("path");
   const cursorTag = document.getElementById("cursor-tag");
   const modeButtons = document.querySelectorAll("#map-mode button");
+  const infoButton = document.getElementById("info");
+  const infoModal = document.getElementById("info-modal");
+  const modalClose = document.getElementById("modal-close");
 
   /**** INTERACTIVE MAP FUNCTIONALITY ****/
   mapNodes.forEach((node) => {
@@ -153,6 +156,30 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("low-value").innerHTML = lowValue;
     document.getElementById("high-value").innerHTML = highValue;
   }
+
+  /**** INFO MODAL FUNCTIONALITY ****/
+  //open modal
+  infoButton.addEventListener('click', (event) => {
+    infoModal.classList.add("open");
+  });
+
+  //close modal by clicking close button
+  modalClose.addEventListener('click', (event) => {
+    infoModal.classList.remove('open');
+  });
+
+  //close modal by clicking outside of modal
+  document.addEventListener('click', (event) => {
+    if(infoModal.classList.contains("open")) {
+      console.log("clicked");
+      if(event.target.id !== "info-modal" && event.target.id !== "info" && !infoModal.contains(event.target)) {
+        infoModal.classList.remove("open");
+      }
+    }
+  });
+
+
+
 
   /**** INITIALIZE MAP ****/
   colorNodes(mapMode);

@@ -1,11 +1,12 @@
 /**** DISTRICT CLASS ****/
 class District {
-  constructor({id, name, population, populationDensity, sesIndex, hazardScore}) {
+  constructor({id, name, population, populationDensity, sesIndex, incomeGap, hazardScore}) {
     this.id = id;
     this.name = name;
     this.population = population;
     this.populationDensity = populationDensity;
     this.sesIndex = sesIndex;
+    this.incomeGap = incomeGap;
     this.hazardScore = hazardScore;
     this.riskScore = this.hazardScore * this.populationDensity * (1 / this.sesIndex);
   }

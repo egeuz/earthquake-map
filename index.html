@@ -10,6 +10,12 @@
     </head>
 
     <body>
+        <div id="info-modal">
+            <div id="modal-content">
+                <button id="modal-close">X</button>
+                <div id="modal-text">lorem ipsum</div>
+            </div>          
+        </div>
         <div id="cursor-tag"></div>
         <div id="app-container">
             <header>
@@ -27,22 +33,50 @@
                 <div id="map-mode">
                     <button id="risk" class="active">
                         Earthquake (Human) Risk
-                        <span class="button-info">Hi!</span>
+                        <span class="button-info">
+                            Measures potential damage an earthquake would cause to a region.
+                            <br><br>
+                            Traditionally calculated as a factor of the region's earthquake hazard, population density, and structural vulnerability.
+                            <br><br>
+                            Instead of structural vulnerability, this map takes account of human vulnerability in the region, by taking socioeconomic status as an estimate of earthquake preparedness.
+                            <br><br>
+                            Please refer to the adjacent tooltips for explanations and sources.
+                        </span>
                     </button>
                     <span class="decoration"> = </span>
                     <button id="hazard">
                         Earthquake Hazard
-                        <span class="button-info">Hi!</span>
+                        <span class="button-info">
+                            Measures the likelihood of an earthquake occurring in the area.
+                            <br><br>
+                            <a href="https://www.researchgate.net/figure/Earthquake-hazard-map-of-Istanbul-by-the-model-aggregated-to-district-boundaries_fig3_268492130" target="_blank">
+                                Earthquake hazard map of Turkey
+                            </a>
+                        </span>
                     </button>
                     <span class="decoration"> + </span>
                     <button id="density">
                         Population Density
-                        <span class="button-info">Hi!</span>
+                        <span class="button-info">
+                            Calculated by dividing the population of the district by its area.
+                            <br><br>
+                            Higher the population density in a district, larger the potential damage an earthquake would cause.
+                            <br><br>
+                            <a href="https://www.fema.gov/your-earthquake-risk" target="_blank">Population density as earthquake vulnerability</a>
+                        </span>
                     </button>
                     <span class="decoration"> + </span>
                     <button id="sesindex">
                         Socioeconomic Status Index
-                        <span class="button-info">Hi!</span>
+                        <span class="button-info">
+                            An aggregated rating between 0–100 that measures the socioeconomic status of the district, taking into account factors such as access to education, transportation, infrastructure, and economic access.
+                            <br><br>
+                            Studies show that socioeconomic status (and specifically economic class) is a signifier of disaster preparedness. A lower socioeconomic status makes it less likely for individuals to afford pre-emptive measures, or to be able to evacuate after the fact, increasing the overall human damage an earthquake would cause.
+                            <br><br>
+                            <a href="documents/srb-low-ses_2.pdf" target="_blank">On socioeconomic status and disasters</a>
+                            <br><br>
+                            <a href="http://www.mahallemistanbul.com/MahallemSEGE_/" target="_blank">Istanbul Socioeconomic Status Dataset</a>
+                        </span>
                     </button>
                 </div>
     
