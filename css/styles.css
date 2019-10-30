@@ -61,16 +61,26 @@ h1 {
 
 /*** INFO MODAL ***/
 #info-modal {
-  display: none;
+  visibility: hidden;
   position: fixed;
   width: 100%;
-  max-width: 400px;
-  background: inherit;
-  border: 2px solid #2a2a28;
+  height: 100%;
+  background: rgba(42, 42, 40, 0.25);
+  top: 0;
+  display: grid;
+  align-items: center;
+  justify-items: center;
   z-index: 3;
 }
 
 #modal-content {
+  width: 95%;
+  max-width: 600px;
+  background: #e6e6dc;
+  border: 2px solid #2a2a28;
+}
+
+#modal-grid {
   width: 95%;
   margin: 0 auto 20px;
   display: grid;
@@ -87,11 +97,16 @@ h1 {
 }
 
 #info-modal.open {
-  display: block;
+  visibility: visible;
 }
 
 #modal-text {
 
+}
+
+#modal-text p {
+  line-height: 1.2;
+  margin-bottom: 10px;
 }
 
 
@@ -186,6 +201,13 @@ footer {
   #map-mode {
     max-width: 600px;
   }
+}
+
+#button-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  /* color: #686863; */
 }
 
 #map-mode button {

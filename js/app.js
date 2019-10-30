@@ -1,13 +1,3 @@
-//TO-DO
-//Prepare classification scores for each data type:
-//earthquake risk: high / medium / low risk
-//earthquake hazard: from a scale of 1-5
-//population density: display direct number
-//socioeconomic status: display sesIndex + maybe also standard deviation within district if possible
-//build up modal functionality -- content shown about district when clicked upon
-//color and criteria adapt upon mapmode change
-//add sources
-
 document.addEventListener("DOMContentLoaded", function () {
   /**** GLOBAL PROPERTIES ****/
   let mapMode = "risk";
@@ -22,11 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /**** INTERACTIVE MAP FUNCTIONALITY ****/
   mapNodes.forEach((node) => {
-    // node.addEventListener('click', (event) => {
-    //   const district = getDistrict(event.target.id);
-    //   console.log(district.name);
-    // });
-
     node.addEventListener('mouseenter', (event) => {
       const district = getDistrict(event.target.id);
       //highlight district
@@ -168,15 +153,19 @@ document.addEventListener("DOMContentLoaded", function () {
     infoModal.classList.remove('open');
   });
 
-  //close modal by clicking outside of modal
-  document.addEventListener('click', (event) => {
-    if(infoModal.classList.contains("open")) {
-      console.log("clicked");
-      if(event.target.id !== "info-modal" && event.target.id !== "info" && !infoModal.contains(event.target)) {
-        infoModal.classList.remove("open");
-      }
-    }
+  infoModal.addEventListener('click', (event) => {
+    if(event.target.id === "info-modal") infoModal.classList.remove("open");
   });
+
+  // //close modal by clicking outside of modal
+  // document.addEventListener('click', (event) => {
+  //   if(infoModal.classList.contains("open")) {
+  //     console.log("clicked");
+  //     if(event.target.id !== "info-modal" && event.target.id !== "info" && !infoModal.contains(event.target)) {
+  //       infoModal.classList.remove("open");
+  //     }
+  //   }
+  // });
 
 
 
