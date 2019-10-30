@@ -15,9 +15,35 @@ body {
   margin: 80px auto 0;
 }
 
-/*** TITLE CARD ***/
+/*** HEADER ***/
+header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+#credits {
+  justify-self: right;
+}
+
+#info {
+  background: none;
+  border: none;
+  color: #8a8a89;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: right;
+  text-decoration: underline;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+#info:hover {
+  color: #2a2a28;
+}
+
 h1 {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 20px;
 }
@@ -36,6 +62,7 @@ h1 {
   box-shadow: 3px 3px #bdbdb5;
   border-radius: 3px;
   align-items: center;
+  z-index: 1;
 }
 
 #cursor-tag.active {
@@ -69,7 +96,9 @@ h1 {
 /*** MAP ***/
 #map-container {
   height: 650px;
-  border: 1px solid #111;
+  border: 1px solid #2a2a28;
+  position: relative;
+  /* transform: rotate(-15deg);*/
 }
 
 #map-container rect {
@@ -82,42 +111,112 @@ path {
   cursor: pointer;
   stroke: #e6e6dc;
   stroke-width: 3px;
+  transition: fill 0.2s;
 }
 
 .highlighted {
   filter: hue-rotate(200deg);
 }
 
-/**** MAP MODE BUTTONS ****/
-#mapMode {
+/**** COMPASS ****/
+#compass {
+  width: 4%;
+  position: absolute;
+  bottom: 20px;
+  right: 25px;
+}
+
+/**** MAP FOOTER ****/
+footer {
+  display: grid;
+  grid-template-columns: auto auto;
   margin-top: 20px;
 }
 
-#mapMode button {
+/**** MAP MODE BUTTONS ****/
+@media all and (max-width: 1250px) {
+  #map-mode {
+    max-width: 600px;
+  }
+}
+
+#map-mode button {
+  cursor: pointer;
   display: inline-block;
+  position: relative;
   margin-right: 5px;
+  margin-bottom: 5px;
   outline: none;
   font-size: 0.8rem;
   font-weight: 600;
   background: none;
   border: 2px solid #2a2a28;
   padding: 10px 15px;
+  width: 210px;
   transition: all 0.2s;
 }
 
-#mapMode span {
+.decoration {
   display: inline-block;
   margin-right: 5px;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 600;
 }
 
-#mapMode button:hover {
+#map-mode button:hover {
   background: #2a2a28;
   color: #e6e6dc;
 }
 
-#mapMode button.active {
+#map-mode button.active {
   background: #2a2a28;
   color: #e6e6dc;
+}
+
+.button-info {
+  position: absolute;
+  background: #e6e6dc;
+  border: 1px solid #2a2a28;
+  display: inline-block;
+  width: 210px;
+  bottom: 120%;
+  left: -2px;
+  color: #2a2a28;
+  font-size: 0.8rem;
+  font-weight: 400;
+  text-align: left;
+  padding: 10px 10px;
+  visibility: hidden;
+  transition: all 0.2s;
+}
+
+.button-info.active {
+  visibility: visible;
+}
+
+/**** SCALE ****/
+#scale {
+  justify-self: right;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: 20px 20px;
+  grid-gap: 10px 0;
+  width: 100%;
+  min-width: 200px;
+  max-width: 250px;
+  height: 65px;
+}
+
+#gradient {
+  grid-column: 1 / span 2;
+  width: 100%;
+  height: 20px;
+}
+
+#scale span {
+  font-size: 0.7rem;
+}
+
+#high-value {
+  justify-self: right;
 }

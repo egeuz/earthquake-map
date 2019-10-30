@@ -1,21 +1,12 @@
 //TO-DO
-//Change color for each map mode
 //Prepare classification scores for each data type:
-  //earthquake risk: high / medium / low risk
-  //earthquake hazard: from a scale of 1-5
-  //population density: display direct number
-  //socioeconomic status: display sesIndex + maybe also standard deviation within district if possible
+//earthquake risk: high / medium / low risk
+//earthquake hazard: from a scale of 1-5
+//population density: display direct number
+//socioeconomic status: display sesIndex + maybe also standard deviation within district if possible
 //build up modal functionality -- content shown about district when clicked upon
-//start building the UI
-  //make buttons prettier
-  //add dynamic legend
-    //color and criteria adapt upon mapmode change
-  //add title
-  //add sources
-  //add compass
-  //add scale???
-  //place everything in a grid
-//make it obvious that disstricts are clickable by brightening them upon hover.
+//color and criteria adapt upon mapmode change
+//add sources
 
 document.addEventListener("DOMContentLoaded", function () {
   /**** GLOBAL PROPERTIES ****/
@@ -24,19 +15,19 @@ document.addEventListener("DOMContentLoaded", function () {
   /**** ELEMENTS ****/
   const mapNodes = document.querySelectorAll("path");
   const cursorTag = document.getElementById("cursor-tag");
-  const modeButtons = document.querySelectorAll("#mapMode button");
+  const modeButtons = document.querySelectorAll("#map-mode button");
 
   /**** INTERACTIVE MAP FUNCTIONALITY ****/
   mapNodes.forEach((node) => {
-    node.addEventListener('click', (event) => {
-      const district = getDistrict(event.target.id);
-      console.log(district.name);
-    });
+    // node.addEventListener('click', (event) => {
+    //   const district = getDistrict(event.target.id);
+    //   console.log(district.name);
+    // });
 
     node.addEventListener('mouseenter', (event) => {
       const district = getDistrict(event.target.id);
       //highlight district
-      event.target.style.fill = district.colorNode(mapMode);
+      event.target.style.fill = district.colorNode(mapMode, 0.1);
       //activate cursor tag
       cursorTag.innerHTML = populateTag(district, mapMode);
       cursorTag.classList.add("active");
@@ -65,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let valueIsHigh = false;
     switch (mapMode) {
       case "risk":
-        let riskScore = + mapRange(district.riskScore, minOfValue("riskScore"), maxOfValue("riskScore"), 0, 100);
+        let riskScore = +mapRange(district.riskScore, minOfValue("riskScore"), maxOfValue("riskScore"), 0, 100);
         riskScore = riskScore.toFixed(2);
         if (riskScore > 80) valueIsHigh = true;
         value = "Earthquake Risk: " + riskScore + "/100";
@@ -76,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
       case "density":
         let densityScore = mapRange(district.populationDensity, minOfValue("populationDensity"), maxOfValue("populationDensity"), 0, 100);
-        if(densityScore > 80) valueIsHigh = true;
+        if (densityScore > 80) valueIsHigh = true;
         value = "Population Density: " + district.populationDensity + "/km<sup>2</sup>";
         break;
       case "sesindex":
@@ -90,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="tag-icon" style="background: ${iconColor};"></div>
     <div class="district-score" style="color: ${district.colorNode(mapMode, 0.3)}">${value}</div>`
 
-    if (valueIsHigh) document.querySelector(".district-score").classList.add("high-score"); 
+    if (valueIsHigh) document.querySelector(".district-score").classList.add("high-score");
     return content;
   }
 
@@ -103,20 +94,70 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  colorNodes(mapMode);
-
   modeButtons.forEach((button) => {
     button.addEventListener('click', (event) => {
+      //highlight currently active button
       modeButtons.forEach(button => button.classList.remove("active"));
       event.target.classList.add("active");
+      //change map mode
       mapMode = event.target.id;
+      //recolor districts based on map mode
       colorNodes(mapMode);
+      //setup scale based on mapmode
+      setScale(mapMode);
+    });
+
+    button.addEventListener('mouseenter', (event) => {
+      // console.log(event.target.childNodes);
+      event.target.querySelector(".button-info").classList.add("active");
+    });
+
+    button.addEventListener('mouseleave', (event) => {
+      event.target.querySelector(".button-info").classList.remove("active");
     });
   });
 
+  /**** SCALE FUNCTIONALITY ****/
+  function setScale(mapMode) {
+    let color;
+    let gradient;
+    let lowValue;
+    let highValue;
+
+    switch (mapMode) {
+      case "risk":
+        color = "0";
+        lowValue = "LEAST RISK";
+        highValue = "MOST RISK";
+        break;
+      case "hazard":
+        color = "25";
+        lowValue = "LEAST HAZARD";
+        highValue = "MOST HAZARD";
+        break;
+      case "density":
+        color = "205";
+        lowValue = "LEAST DENSE";
+        highValue = "MOST DENSE";
+        break;
+      case "sesindex":
+        color = "255";
+        lowValue = "LOWEST";
+        highValue = "HIGHEST";
+        break;
+      default:
+        break;
+    }
+    gradient = `linear-gradient(90deg, hsla(${color}, 100%, 55%, 0.3), hsla(${color}, 100%, 55%, 0.9))`;
+    document.getElementById("gradient").style.background = gradient;
+    document.getElementById("low-value").innerHTML = lowValue;
+    document.getElementById("high-value").innerHTML = highValue;
+  }
+
+  /**** INITIALIZE MAP ****/
+  colorNodes(mapMode);
+  setScale(mapMode);
 });
-
-
 
 /**** HELPER METHODS ****/
 const getDistrict = (id) => districts.filter(district => district.id === id)[0];
