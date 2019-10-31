@@ -17,61 +17,22 @@ document.addEventListener("DOMContentLoaded", function () {
       //highlight district
       event.target.style.fill = district.colorNode(mapMode, 0.1);
       //activate cursor tag
-      cursorTag.innerHTML = populateTag(district, mapMode);
+      cursorTag.innerHTML = district.populateTag(mapMode);
       cursorTag.classList.add("active");
     });
 
     node.addEventListener('mouseleave', (event) => {
       const district = getDistrict(event.target.id);
-      //de-highlight district
-      event.target.style.fill = district.colorNode(mapMode);
-      //deactivate cursor tag
-      cursorTag.classList.remove("active");
+      event.target.style.fill = district.colorNode(mapMode); //de-highlight district
+      cursorTag.classList.remove("active"); //deactivate cursor tag
     });
   });
 
   /**** CURSOR TAG FUNCTIONALITY ****/
-  //follow cursor
   document.addEventListener('mousemove', (event) => {
     cursorTag.style.left = (event.x + 25) + "px";
     cursorTag.style.top = (event.y - 10) + "px";
   });
-
-  //draw information from hovered district
-  const populateTag = (district, mapMode) => {
-    let iconColor = district.colorNode(mapMode);
-    let value;
-    let valueIsHigh = false;
-    switch (mapMode) {
-      case "risk":
-        let riskScore = +mapRange(district.riskScore, minOfValue("riskScore"), maxOfValue("riskScore"), 0, 100);
-        riskScore = riskScore.toFixed(2);
-        if (riskScore > 80) valueIsHigh = true;
-        value = "Earthquake Risk: " + riskScore + "/100";
-        break;
-      case "hazard":
-        if (district.hazardScore > 4) valueIsHigh = true;
-        value = "Earthquake Hazard: " + district.hazardScore + "/5";
-        break;
-      case "density":
-        let densityScore = mapRange(district.populationDensity, minOfValue("populationDensity"), maxOfValue("populationDensity"), 0, 100);
-        if (densityScore > 80) valueIsHigh = true;
-        value = "Population Density: " + district.populationDensity + "/km<sup>2</sup>";
-        break;
-      case "sesindex":
-        if (district.sesIndex > 80) valueIsHigh = true;
-        value = "Socioeconomic Status Index: " + district.sesIndex + "/100";
-        break;
-      default:
-        break;
-    }
-    const content = `<p class="district-name">${district.name}</p>
-    <div class="tag-icon" style="background: ${iconColor};"></div>
-    <div class="district-score" style="color: ${district.colorNode(mapMode, 0.3)}">${value}</div>`
-
-    if (valueIsHigh) document.querySelector(".district-score").classList.add("high-score");
-    return content;
-  }
 
   /**** NODE COLORING FUNCTIONALITY ****/
   function colorNodes(mapMode) {
@@ -156,19 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
   infoModal.addEventListener('click', (event) => {
     if(event.target.id === "info-modal") infoModal.classList.remove("open");
   });
-
-  // //close modal by clicking outside of modal
-  // document.addEventListener('click', (event) => {
-  //   if(infoModal.classList.contains("open")) {
-  //     console.log("clicked");
-  //     if(event.target.id !== "info-modal" && event.target.id !== "info" && !infoModal.contains(event.target)) {
-  //       infoModal.classList.remove("open");
-  //     }
-  //   }
-  // });
-
-
-
 
   /**** INITIALIZE MAP ****/
   colorNodes(mapMode);
