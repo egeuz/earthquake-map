@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
       default:
         break;
     }
-    gradient = `linear-gradient(90deg, hsla(${color}, 100%, 55%, 0.3), hsla(${color}, 100%, 55%, 0.9))`;
+    gradient = `linear-gradient(90deg, hsla(${color}, 100%, 55%, 0.1), hsla(${color}, 100%, 55%, 0.9))`;
     document.getElementById("gradient").style.background = gradient;
     document.getElementById("low-value").innerHTML = lowValue;
     document.getElementById("high-value").innerHTML = highValue;
